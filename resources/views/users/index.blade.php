@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Users</div>
                     <div class="card-body">
-                       <table calss ="table">
+                       <table class="table">
                            <thead>
                               <tr>
                                   <th>First Name</th>
@@ -16,7 +16,13 @@
                               </tr>
                            </thead>
                            <tbody>
-
+                             @foreach($users as $user)
+                               <tr>
+                                   <td>{{ $user->first_name }}</td>
+                                   <td>{{ $user->last_name }}</td>
+                                   <td>{{ $user->email }}</td>
+                               </tr>
+                             @endforeach
                            </tbody>
                        </table>
                     </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,13 +14,15 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
-    {
+
+    {   // creamos la variable
         $users = User::all();
 
-        dd($users);
-
+        // llamammos para la vista la carpeta user con el archivo index para visializar
         return view('users.index', [
+            // pasamos el parametro a la variable
             'users' => $users
+
         ]);
     }
 
