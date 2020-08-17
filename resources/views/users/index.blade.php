@@ -16,13 +16,18 @@
                               </tr>
                            </thead>
                            <tbody>
-                             @foreach($users as $user)
+
+                             @forelse($users as $user)
                                <tr>
                                    <td>{{ $user->first_name }}</td>
                                    <td>{{ $user->last_name }}</td>
                                    <td>{{ $user->email }}</td>
                                </tr>
-                             @endforeach
+                             @empty
+                                <tr>
+                                    <td colspan="3" > No se encontraron usuarios</td>
+                                </tr>
+                            @endforelse
                            </tbody>
                        </table>
                     </div>
