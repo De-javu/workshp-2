@@ -7,15 +7,28 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testBasicTest()
+    public function aUserCanListUsers()
     {
-        $response = $this->get('/');
+        $user = factory(User::class)->create();
 
-        $response->assertStatus(200);
+        $response = $this->get(route('users.index'));
+
+        $response->assertOk();
+        $response->assertViewIs('users.index');
+        $response->assertViewHas('users');
+
+        $responseUsers = $response->getOriginalContent()['users'];
+
+        $responseUsers->each(function ($item) use ($user) {
+            $this->assertEquals($user->id, $item->id);
+    });
+
+
     }
 }
