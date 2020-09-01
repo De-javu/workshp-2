@@ -1,24 +1,41 @@
 <?php
 
 namespace Tests\Feature\User;
-
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class indexTest extends TestCase
 {
+    use RefreshDatabase;
     /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-
-    /** @test */ 
-    public function sUserCanListUsers()
+     * @test */
+    public function aNotAuthenticatedCannotListUsers()
     {
+
         $response = $this->get(route('users.index'));
 
-        $response->assertStatus(200);
+        $response->assertRedirect('login');
+    }
+
+    /** @test */
+    public function anAuthenticatedUserCanListUsers()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->get(route('users.index'));
+
+        $response->assertOk();
+        $response->assertViewIs('users.index');
+        $response->assertViewHas('users');
+
+        $responseUsers = $response->getOriginalContent()['users'];
+
+        $responseUsers->each(function($item) use ($user) {
+            $this->assertEquals($user->id, $item->id);
+        });
+
+
     }
 }
