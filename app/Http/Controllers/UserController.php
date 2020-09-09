@@ -44,7 +44,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        User::create([
+            'first_name' => $request->input( 'first_name'),
+            'last_name' => $request->input( 'last_name'),
+            'email' => $request->input( 'email'),
+            'password' => bcrypt($request->input( 'password')),
 
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     /**
